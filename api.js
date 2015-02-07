@@ -10,7 +10,7 @@ var db = new cassandra.Client({
 
 router.use( function (req,res,next){
 	if(!req.user){
-		req.user={id:1};
+		req.user={id:1,firstname:"dummy",lastname:"dummy"};
 	}
 	next();
 });
@@ -30,7 +30,9 @@ contactRoute.get(function(req,res){
 	});	
 });
 contactRoute.post(function(req,res){
-	db.execute("insert into contacts(id,userid,firstname,lastname) values("+req.user.id+",1,'"+req.user.firstname+"','"+req.user.lastname+"')",function(err,result){
+	db.execute("insert into contacts(id,userid,firstname,lastname) values("
+		+req.user.id+",1,'"+req.user.firstname+"','"+req.user.lastname+"')",
+	function(err,result){
 		if(!err){
 		res.json({'msg':'done'});
 		}else{
